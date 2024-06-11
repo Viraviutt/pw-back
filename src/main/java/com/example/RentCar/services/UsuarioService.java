@@ -17,6 +17,15 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    public UsuarioDTO getUsuarioByCedula(Long id) {
+        try {
+            return UsuarioMapper.INSTANCE.toDTO(usuarioRepository.findByCedula(id));
+        } catch (Exception e) {
+            log.error("ERROR consultando el usuario", e);
+        }
+        return null;
+    }
+
     public UsuarioDTO CreateUsuario(UsuarioDTO usuarioDTO) {
         try {
             if (usuarioDTO.getIdUsuario() != null) {

@@ -41,10 +41,10 @@ public class RentaController {
     private RentaService rentaService;
 
     @GetMapping("")
-    public ResponseEntity<HashMap<String, Object>> getAllPrestamos() {
+    public ResponseEntity<HashMap<String, Object>> getAllRentas() {
         HashMap<String, Object> response = new HashMap<>();
 
-        List<RentaDTO> rentas = rentaService.getAllPrestamos();
+        List<RentaDTO> rentas = rentaService.getAllRentas();
         if (rentas.isEmpty()) {
             return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
         }
@@ -53,10 +53,10 @@ public class RentaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<HashMap<String, Object>> getPrestamoById(@PathVariable("id") Long id) {
+    public ResponseEntity<HashMap<String, Object>> getRentaById(@PathVariable("id") Long id) {
         HashMap<String, Object> response = new HashMap<>();
 
-        RentaDTO renta = rentaService.getPrestamoById(id);
+        RentaDTO renta = rentaService.getRentaById(id);
         if (renta == null) {
             return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
         }
@@ -65,7 +65,7 @@ public class RentaController {
     }
 
     @PostMapping("")
-    public ResponseEntity<HashMap<String, Object>> createPrestamo(@RequestBody RentalFormData formData) {
+    public ResponseEntity<HashMap<String, Object>> createRenta(@RequestBody RentalFormData formData) {
         HashMap<String, Object> response = new HashMap<>();
 
         // Buscar el usuario por cédula

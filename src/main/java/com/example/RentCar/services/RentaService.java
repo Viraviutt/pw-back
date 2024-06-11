@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 public class RentaService {
 
     @Autowired
-    private RentaRepository prestamoRepository;
+    private RentaRepository rentaRepository;
 
     @Autowired
     private UsuarioRepository usuarioRepository;
@@ -27,44 +27,44 @@ public class RentaService {
     @Autowired
     private CarroRepository carroRepository;
 
-    public RentaDTO CreatePrestamo(RentaDTO prestamoDTO) {
+    public RentaDTO CreateRenta(RentaDTO rentaDTO) {
         try {
-            if (prestamoDTO.getIdRenta() != null) {
+            if (rentaDTO.getIdRenta() != null) {
                 throw new IllegalArgumentException("La identificación es generada por la base de datos");
             }
-            Renta prestamo = RentaMapper.INSTANCE.toEntity(prestamoDTO, usuarioRepository,
+            Renta renta = RentaMapper.INSTANCE.toEntity(rentaDTO, usuarioRepository,
                     carroRepository);
-            if (prestamo == null) {
-                throw new IllegalArgumentException("El prestamo no puede ser NULL");
+            if (renta == null) {
+                throw new IllegalArgumentException("La renta no puede ser NULL");
             }
-            Renta prestamoSave = prestamoRepository.save(prestamo);
-            return RentaMapper.INSTANCE.toDTO(prestamoSave);
+            Renta rentaGuardada = rentaRepository.save(renta);
+            return RentaMapper.INSTANCE.toDTO(rentaGuardada);
         } catch (Exception e) {
-            log.error("ERROR creando el prestamo", e);
+            log.error("ERROR creando la renta", e);
         }
         return null;
     }
 
-    public RentaDTO getPrestamoById(Long id) {
+    public RentaDTO getRentaById(Long id) {
         try {
             if (id == null) {
-                throw new IllegalArgumentException("Id cannot be null");
+                throw new IllegalArgumentException("La identificación es generada por la base de datos");
             }
-            Renta prestamo = prestamoRepository.findById(id).orElseThrow(
+            Renta renta = rentaRepository.findById(id).orElseThrow(
                     () -> new IllegalArgumentException("Prestamo no existente"));
-            return RentaMapper.INSTANCE.toDTO(prestamo);
+            return RentaMapper.INSTANCE.toDTO(renta);
         } catch (Exception e) {
-            log.error("ERROR buscando el prestamo por el ID", e);
+            log.error("ERROR buscando la renta por el ID", e);
         }
         return null;
     }
 
-    public List<RentaDTO> getAllPrestamos() {
+    public List<RentaDTO> getAllRentas() {
         try {
-            List<Renta> prestamos = prestamoRepository.findAll();
-            return prestamos.stream().map(RentaMapper.INSTANCE::toDTO).toList();
+            List<Renta> rentas = rentaRepository.findAll();
+            return rentas.stream().map(RentaMapper.INSTANCE::toDTO).toList();
         } catch (Exception e) {
-            log.error("ERROR buscando todos los prestamos", e);
+            log.error("ERROR buscando todas las rentas", e);
         }
         return List.of();
     }
